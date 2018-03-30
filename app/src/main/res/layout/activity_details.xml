@@ -5,13 +5,14 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.andyradionov.udacitybakingapp.MainActivity">
+    tools:context="io.github.andyradionov.udacitybakingapp.DetailsActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recipes_container"
+    <FrameLayout
+        android:id="@+id/detail_recipe_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <include layout="@layout/drawer_navigation" />
 
 </android.support.v4.widget.DrawerLayout>
+
