@@ -11,4 +11,9 @@
     <string name="step_number">Step #%d</string>
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Close menu</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="ingredients_title">Ingredients</string>
+
+    <string name="pref_recipe_id_key" translatable="false">recipe_id</string>
 </resources>

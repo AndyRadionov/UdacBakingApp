@@ -33,23 +33,24 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
 
     protected void prepareDrawer() {
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         DrawerArrowDrawable drawerArrow = new DrawerArrowDrawable(this);
         drawerArrow.setColor(getResources().getColor(android.R.color.white));
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                null,  /* значок-гамбургер для замены стрелки 'Up' */
-                R.string.drawer_open,  /* добавьте строку "open drawer" - описание для  accessibility */
-                R.string.drawer_close  /* добавьте "close drawer" - описание для accessibility */
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                null,
+                R.string.drawer_open,
+                R.string.drawer_close
         );
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.setDrawerArrowDrawable(drawerArrow);
+
+        drawerToggle.setDrawerArrowDrawable(drawerArrow);
+        mDrawerLayout.addDrawerListener(drawerToggle);
 
         mRecipes = RecipesLoader.loadFromJsonFile(this);
 
@@ -87,7 +88,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         String menuTitle = menuItem.getTitle().toString();
                         if (mRecipesKeys.containsKey(menuTitle)) {
-                            startDetailsActivity(mRecipesKeys.get(menuTitle), 0);
+                            startStepsActivity(mRecipesKeys.get(menuTitle));
                             mDrawerLayout.closeDrawer(GravityCompat.START);
                             return true;
                         }
@@ -96,10 +97,9 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
                 });
     }
 
-    protected void startDetailsActivity(Recipe recipe, int stepNumber) {
-        Intent startDetails = new Intent(this, DetailsActivity.class);
-        startDetails.putExtra(DetailsActivity.RECIPE_EXTRA, recipe);
-        startDetails.putExtra(DetailsActivity.STEP_NUMBER_EXTRA, stepNumber);
-        startActivityForResult(startDetails, DetailsActivity.REQUEST_SHOW_DETAILS);
+    private void startStepsActivity(Recipe recipe) {
+        Intent startSteps = new Intent(this, BakingActivity.class);
+        startSteps.putExtra(BakingActivity.RECIPE_EXTRA, recipe);
+        startActivity(startSteps);
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Andrey Radionov
@@ -88,11 +89,20 @@ public class Recipe implements Parcelable {
     }
 
     public String getIngredientsString() {
-        StringBuilder ingredientsString = new StringBuilder();
-        for (RecipeIngredient ingredient : ingredients) {
-            ingredientsString.append(ingredient.getIngredient()).append("\n");
+        StringBuilder ingredientsListBuilder = new StringBuilder();
+        for (int i = 0; i < ingredients.size(); i++) {
+            RecipeIngredient ingredient = ingredients.get(i);
+                    ingredientsListBuilder
+                    .append(i + 1)
+                    .append(". ")
+                    .append(ingredient.getIngredient())
+                    .append(" - ")
+                    .append(ingredient.getQuantity())
+                    .append(" ")
+                    .append(ingredient.getMeasure())
+                    .append("\n");
         }
-        return ingredientsString.toString().trim();
+        return ingredientsListBuilder.toString().trim();
     }
 
     @Override

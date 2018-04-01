@@ -59,6 +59,15 @@ public class RecipesLoader {
         return result == null ? new Recipe[0] : result;
     }
 
+    public static Recipe loadRecipeById(Recipe[] recipes, int recipeId) {
+        for (Recipe recipe : recipes) {
+            if (recipe.getId() == recipeId) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
     private static class StepDeserializer implements JsonDeserializer<RecipeStep> {
 
 

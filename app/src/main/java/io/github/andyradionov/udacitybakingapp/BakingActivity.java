@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import timber.log.Timber;
 
 public class BakingActivity extends BaseDrawerActivity
         implements RecipeStepsAdapter.OnStepItemClickListener,
@@ -20,12 +22,13 @@ public class BakingActivity extends BaseDrawerActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking);
-
+        Timber.d("onCreate");
         prepareDrawer();
 
         Intent startIntent = getIntent();
         mRecipe = startIntent.getParcelableExtra(RECIPE_EXTRA);
 
+        setTitle(mRecipe.getName());
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         RecipeStepsFragment stepsFragment = RecipeStepsFragment.newInstance(mRecipe);
@@ -56,7 +59,7 @@ public class BakingActivity extends BaseDrawerActivity
                     .replace(R.id.detail_recipe_fragment, detailsFragment)
                     .commit();
         } else {
-            startDetailsActivity(mRecipe, mCurrentStep);
+            startDetailsActivity();
         }
     }
 
@@ -89,11 +92,18 @@ public class BakingActivity extends BaseDrawerActivity
         if (requestCode == DetailsActivity.REQUEST_SHOW_DETAILS) {
             if (resultCode == DetailsActivity.RESULT_SHOW_PREVIOUS) {
                 mCurrentStep--;
-                startDetailsActivity(mRecipe, mCurrentStep);
+                startDetailsActivity();
             } else if (resultCode == DetailsActivity.RESULT_SHOW_NEXT) {
                 mCurrentStep++;
-                startDetailsActivity(mRecipe, mCurrentStep);
+                startDetailsActivity();
             }
         }
+    }
+
+    private void startDetailsActivity() {
+        Intent startDetails = new Intent(this, DetailsActivity.class);
+        startDetails.putExtra(DetailsActivity.RECIPE_EXTRA, mRecipe);
+        startDetails.putExtra(DetailsActivity.STEP_NUMBER_EXTRA, mCurrentStep);
+        startActivityForResult(startDetails, DetailsActivity.REQUEST_SHOW_DETAILS);
     }
 }
