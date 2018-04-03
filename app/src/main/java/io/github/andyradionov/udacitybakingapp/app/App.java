@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import io.github.andyradionov.udacitybakingapp.RecipesData;
 import timber.log.Timber;
 
 /**
@@ -16,7 +15,6 @@ import timber.log.Timber;
 public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
 
-    private static RecipesData sRecipesData;
     private static Context sContext;
 
     @Override
@@ -24,17 +22,9 @@ public class App extends Application {
         Log.d(TAG, "onCreate");
         super.onCreate();
 
-        sRecipesData = new RecipesData();
         sContext = getApplicationContext();
 
         Timber.plant(new Timber.DebugTree());
-
-    }
-
-
-
-    public static RecipesData getRecipesData() {
-        return sRecipesData;
     }
 
     public static Context getAppContext() {

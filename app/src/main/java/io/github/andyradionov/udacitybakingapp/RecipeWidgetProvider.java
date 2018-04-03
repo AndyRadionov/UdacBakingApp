@@ -22,7 +22,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     private static final String PREV_RECIPE_ACTION = "prev_recipe_action";
     private static final String NEXT_RECIPE_ACTION = "next_recipe_action";
-    private static final String BOOT_COMPLETE_ACTION = "android.intent.action.BOOT_COMPLETED";
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 Recipe recipe, int appWidgetId) {
@@ -52,8 +51,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
-        Recipe[] recipes = RecipesLoader.loadFromJsonFile(context);
-        Recipe recipe = RecipesLoader.loadRecipeById(recipes, recipeId);
+        Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
 
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, recipe, appWidgetId);
@@ -92,7 +90,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             WidgetPreferenceHelper.updateRecipeId(context, recipeId);
         }
 
-        Recipe recipe = RecipesLoader.loadRecipeById(recipes, recipeId);
+        Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
         int[] widgetIds = widgetManager.getAppWidgetIds(
                 new ComponentName(context, RecipeWidgetProvider.class));

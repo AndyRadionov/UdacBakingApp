@@ -1,9 +1,11 @@
 package io.github.andyradionov.udacitybakingapp;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 
@@ -30,10 +32,8 @@ public class DetailsActivity extends BaseDrawerActivity
         int stepNumber = startIntent.getIntExtra(STEP_NUMBER_EXTRA, 0);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        StepDetailsFragment detailsFragment =
-                StepDetailsFragment.newInstance(recipe, stepNumber);
         fragmentManager.beginTransaction()
-                .add(R.id.detail_recipe_fragment, detailsFragment)
+                .add(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
                 .commit();
     }
 

@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,6 +33,20 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     private Map<String, Recipe> mRecipesKeys;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     protected void prepareDrawer() {
         ActionBar actionBar = getSupportActionBar();
@@ -61,18 +78,21 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-                return true;
+    protected Fragment getDetailsFragment(Recipe recipe, int stepNumber) {
+        Fragment fragment;
+        if (TextUtils.isEmpty(recipe.getVideoUrlForStep(stepNumber))) {
+            fragment = StepDetailsFragment.newInstance(recipe, stepNumber);
+        } else {
+            fragment = StepDetailsVideoFragment.newInstance(recipe, stepNumber);
         }
-        return super.onOptionsItemSelected(item);
+        return fragment;
+    }
+
+    protected void replaceDetailsFragment(Recipe recipe, int stepNumber) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
+                .commit();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

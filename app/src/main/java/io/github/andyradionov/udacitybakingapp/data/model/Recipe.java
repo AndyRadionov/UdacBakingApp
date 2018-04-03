@@ -2,6 +2,7 @@ package io.github.andyradionov.udacitybakingapp.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +18,6 @@ public class Recipe implements Parcelable {
     private List<RecipeStep> steps;
     private int servings;
     private String image;
-
 
     protected Recipe(Parcel in) {
         id = in.readInt();
@@ -89,13 +89,14 @@ public class Recipe implements Parcelable {
     }
 
     public String getIngredientsString() {
+
         StringBuilder ingredientsListBuilder = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             RecipeIngredient ingredient = ingredients.get(i);
                     ingredientsListBuilder
                     .append(i + 1)
                     .append(". ")
-                    .append(ingredient.getIngredient())
+                    .append(capitalizeFirstLetter(ingredient.getIngredient()))
                     .append(" - ")
                     .append(ingredient.getQuantity())
                     .append(" ")
@@ -103,6 +104,13 @@ public class Recipe implements Parcelable {
                     .append("\n");
         }
         return ingredientsListBuilder.toString().trim();
+    }
+
+    public String getVideoUrlForStep(int stepNumber) {
+        if (steps != null && !steps.isEmpty()) {
+            return getSteps().get(stepNumber).getVideoURL();
+        }
+        return "";
     }
 
     @Override
@@ -128,5 +136,12 @@ public class Recipe implements Parcelable {
         dest.writeTypedList(steps);
         dest.writeInt(servings);
         dest.writeString(image);
+    }
+
+    private String capitalizeFirstLetter(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 }

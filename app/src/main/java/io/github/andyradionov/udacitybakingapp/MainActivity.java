@@ -1,6 +1,7 @@
 package io.github.andyradionov.udacitybakingapp;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -25,35 +26,22 @@ import java.util.Map;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
+import io.github.andyradionov.udacitybakingapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends BaseDrawerActivity
         implements RecipesListAdapter.OnRecipeItemClickListener {
 
-    private RecyclerView mRecipesListContainer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         prepareDrawer();
 
-
-        mRecipesListContainer = findViewById(R.id.rv_recipes_container);
-
-
-
         RecipesListAdapter adapter = new RecipesListAdapter(this, mRecipes);
-        mRecipesListContainer.setAdapter(adapter);
+        binding.rvRecipesContainer.setAdapter(adapter);
 
-        RecyclerView.LayoutManager layoutManager;
-        if (isTablet()) {
-            layoutManager = new GridLayoutManager(this, 3);
-        } else {
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        }
-        mRecipesListContainer.setLayoutManager(layoutManager);
+        binding.rvRecipesContainer.setLayoutManager(getLayoutManager());
     }
 
     @Override
@@ -61,6 +49,17 @@ public class MainActivity extends BaseDrawerActivity
         Intent startBakingActivity = new Intent(this, BakingActivity.class);
         startBakingActivity.putExtra(BakingActivity.RECIPE_EXTRA, recipe);
         startActivity(startBakingActivity);
+    }
+
+    @NonNull
+    private RecyclerView.LayoutManager getLayoutManager() {
+        RecyclerView.LayoutManager layoutManager;
+        if (isTablet()) {
+            layoutManager = new GridLayoutManager(this, 3);
+        } else {
+            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
+        return layoutManager;
     }
 
     private boolean isTablet() {

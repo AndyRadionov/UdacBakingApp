@@ -118,6 +118,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             TextView ingredients = recipeCard.findViewById(R.id.tv_ingredients);
             ingredients.setText(mRecipe.getIngredientsString());
         }
+
         void bindStep(int position) {
             Timber.d("Bind Step");
 

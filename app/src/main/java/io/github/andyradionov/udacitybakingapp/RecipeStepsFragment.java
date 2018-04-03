@@ -1,6 +1,7 @@
 package io.github.andyradionov.udacitybakingapp;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
+import io.github.andyradionov.udacitybakingapp.databinding.FragmentRecipeStepsBinding;
 import timber.log.Timber;
 
 
@@ -21,14 +23,11 @@ public class RecipeStepsFragment extends Fragment {
     private static final String RECIPE_PARAM = "recipe_param";
 
     private Recipe mRecipe;
-    private RecyclerView mRecipeStepsContainer;
-    private RecipeStepsAdapter mAdapter;
     private RecipeStepsAdapter.OnStepItemClickListener mStepItemClickListener;
 
     public RecipeStepsFragment() {
         // Required empty public constructor
     }
-
 
     public static RecipeStepsFragment newInstance(Recipe recipe) {
         Timber.d("RecipeStepsFragment newInstance");
@@ -68,16 +67,16 @@ public class RecipeStepsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Timber.d("RecipeStepsFragment onCreateView");
-        final View rootView = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
+        FragmentRecipeStepsBinding binding = DataBindingUtil
+                .inflate(inflater, R.layout.fragment_recipe_steps, container, false);
 
-        mRecipeStepsContainer = rootView.findViewById(R.id.rv_steps_container);
-
-        mAdapter = new RecipeStepsAdapter(getContext(), mStepItemClickListener, mRecipe);
-        mRecipeStepsContainer.setAdapter(mAdapter);
+        RecipeStepsAdapter adapter = new RecipeStepsAdapter(getContext(), mStepItemClickListener, mRecipe);
+        binding.rvStepsContainer.setAdapter(adapter);
 
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRecipeStepsContainer.setLayoutManager(layoutManager);
-        return rootView;
+        binding.rvStepsContainer.setLayoutManager(layoutManager);
+
+        return binding.getRoot();
     }
 }

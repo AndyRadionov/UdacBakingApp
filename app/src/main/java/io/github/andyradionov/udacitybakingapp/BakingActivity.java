@@ -1,9 +1,11 @@
 package io.github.andyradionov.udacitybakingapp;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
@@ -39,25 +41,17 @@ public class BakingActivity extends BaseDrawerActivity
         if (findViewById(R.id.detail_recipe_fragment) != null) {
             mIsTwoPane = true;
 
-            StepDetailsFragment detailsFragment =
-                    StepDetailsFragment.newInstance(mRecipe, mCurrentStep);
             fragmentManager.beginTransaction()
-                    .add(R.id.detail_recipe_fragment, detailsFragment)
+                    .add(R.id.detail_recipe_fragment, getDetailsFragment(mRecipe, mCurrentStep))
                     .commit();
         }
     }
 
-
     @Override
-    public void onStepItemClick(int stepIndex) {
-        mCurrentStep = stepIndex;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        StepDetailsFragment detailsFragment =
-                StepDetailsFragment.newInstance(mRecipe, stepIndex);
+    public void onStepItemClick(int stepNumber) {
+        mCurrentStep = stepNumber;
         if (mIsTwoPane) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.detail_recipe_fragment, detailsFragment)
-                    .commit();
+            replaceDetailsFragment(mRecipe, stepNumber);
         } else {
             startDetailsActivity();
         }
@@ -66,25 +60,13 @@ public class BakingActivity extends BaseDrawerActivity
     @Override
     public void onPreviousClick() {
         mCurrentStep--;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        StepDetailsFragment detailsFragment =
-                StepDetailsFragment.newInstance(mRecipe, mCurrentStep);
-        fragmentManager.beginTransaction()
-                .replace(R.id.detail_recipe_fragment, detailsFragment)
-                .commit();
+        replaceDetailsFragment(mRecipe, mCurrentStep);
     }
 
     @Override
     public void onNextClick() {
         mCurrentStep++;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        StepDetailsFragment detailsFragment =
-                StepDetailsFragment.newInstance(mRecipe, mCurrentStep);
-        fragmentManager.beginTransaction()
-                .replace(R.id.detail_recipe_fragment, detailsFragment)
-                .commit();
+        replaceDetailsFragment(mRecipe, mCurrentStep);
     }
 
     @Override
