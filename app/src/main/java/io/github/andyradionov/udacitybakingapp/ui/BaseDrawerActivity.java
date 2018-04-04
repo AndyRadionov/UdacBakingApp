@@ -1,9 +1,8 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +16,10 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
+import io.github.andyradionov.udacitybakingapp.viewmodels.DrawerViewModel;
 
 /**
  * @author Andrey Radionov
@@ -29,8 +27,7 @@ import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
 
 public abstract class BaseDrawerActivity extends AppCompatActivity {
 
-    protected Recipe[] mRecipes;
-    private Map<String, Recipe> mRecipesKeys;
+    protected DrawerViewModel mDrawerViewModel;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
@@ -49,6 +46,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     protected void prepareDrawer() {
+        mDrawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel.class);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -69,7 +67,10 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
         drawerToggle.setDrawerArrowDrawable(drawerArrow);
         mDrawerLayout.addDrawerListener(drawerToggle);
 
-        mRecipes = RecipesLoader.loadFromJsonFile(this);
+        if (mDrawerViewModel.getRecipes().getValue() == null) {
+            Recipe[] recipes = RecipesLoader.loadFromJsonFile(this);
+            mDrawerViewModel.getRecipes().setValue(recipes);
+        }
 
         mNavigationView = findViewById(R.id.nav_view);
 
@@ -96,23 +97,19 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        mRecipesKeys = new HashMap<>(mRecipes.length);
         final Menu menu = mNavigationView.getMenu();
-        for (Recipe mRecipe : mRecipes) {
-            menu.add(mRecipe.getName());
-            mRecipesKeys.put(mRecipe.getName(), mRecipe);
+        Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
+        for (int i = 0; i < recipes.length; i++) {
+            menu.add(0, i, 0, recipes[i].getName());
         }
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        String menuTitle = menuItem.getTitle().toString();
-                        if (mRecipesKeys.containsKey(menuTitle)) {
-                            startStepsActivity(mRecipesKeys.get(menuTitle));
-                            mDrawerLayout.closeDrawer(GravityCompat.START);
-                            return true;
-                        }
-                        return false;
+                        Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
+                        startStepsActivity(recipes[menuItem.getItemId()]);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
                     }
                 });
     }

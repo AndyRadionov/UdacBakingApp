@@ -3,8 +3,6 @@ package io.github.andyradionov.udacitybakingapp.app;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
 import timber.log.Timber;
 
@@ -13,23 +11,13 @@ import timber.log.Timber;
  */
 
 public class App extends Application {
-    private static final String TAG = App.class.getSimpleName();
-
-    private static Context sContext;
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "onCreate");
         super.onCreate();
-
-        sContext = getApplicationContext();
-
         Timber.plant(new Timber.DebugTree());
     }
 
-    public static Context getAppContext() {
-        return sContext;
-    }
 
     /**
      * Check if Internet is Available on device
@@ -38,7 +26,7 @@ public class App extends Application {
      * @return internet status
      */
     public static boolean isInternetAvailable(Context context) {
-        Log.d(TAG, "isInternetAvailable");
+        Timber.d("isInternetAvailable");
         ConnectivityManager mConMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return mConMgr != null

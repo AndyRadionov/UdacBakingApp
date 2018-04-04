@@ -1,18 +1,18 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
 import io.github.andyradionov.udacitybakingapp.data.utils.WidgetPreferenceHelper;
+import io.github.andyradionov.udacitybakingapp.ui.BakingActivity;
 import timber.log.Timber;
 
 /**
@@ -49,7 +49,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
         int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
         Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
 
@@ -65,12 +64,10 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     @Override

@@ -1,16 +1,17 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
+import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.List;
-
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import io.github.andyradionov.udacitybakingapp.databinding.ItemRecipeCardBinding;
+import io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel;
 import timber.log.Timber;
 
 /**
@@ -19,6 +20,7 @@ import timber.log.Timber;
 
 public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.RecipeListViewHolder> {
 
+    private Context mContext;
     private Recipe[] mRecipes;
     private OnRecipeItemClickListener mClickListener;
 
@@ -26,9 +28,11 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         void onRecipeItemClick(Recipe recipe);
     }
 
-    public RecipesListAdapter(OnRecipeItemClickListener clickListener, Recipe[] recipes) {
+    public RecipesListAdapter(Context context, OnRecipeItemClickListener clickListener,
+                              Recipe[] recipes) {
         Timber.d("RecipesListAdapter constructor call");
 
+        mContext = context;
         mClickListener = clickListener;
         mRecipes = recipes;
     }
@@ -38,9 +42,11 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     public RecipeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder");
 
-        CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_recipe_card, parent, false);
-        return new RecipeListViewHolder(cardView);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        ItemRecipeCardBinding binding = DataBindingUtil
+                .inflate(inflater, R.layout.item_recipe_card, parent, false);
+
+        return new RecipeListViewHolder(binding);
     }
 
     @Override
@@ -58,13 +64,14 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     public class RecipeListViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private CardView recipeCard;
+        private ItemRecipeCardBinding mBinding;
 
-        RecipeListViewHolder(CardView itemView) {
-            super(itemView);
+        RecipeListViewHolder(ItemRecipeCardBinding binding) {
+            super(binding.getRoot());
 
             Timber.d("RecipeListViewHolder Constructor call");
-            recipeCard = itemView;
+            mBinding = binding;
+            mBinding.setRecipeViewModel(new RecipeViewModel());
             itemView.setOnClickListener(this);
         }
 
@@ -73,9 +80,8 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
 
             Recipe recipe = mRecipes[position];
 
-            TextView recipeName = recipeCard.findViewById(R.id.tv_recipe_name);
-            recipeName.setText(recipe.getName());
-
+            mBinding.getRecipeViewModel().setRecipe(recipe);
+            mBinding.executePendingBindings();
         }
 
         @Override

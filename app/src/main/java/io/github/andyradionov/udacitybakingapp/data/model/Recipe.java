@@ -2,10 +2,8 @@ package io.github.andyradionov.udacitybakingapp.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author Andrey Radionov
@@ -93,7 +91,7 @@ public class Recipe implements Parcelable {
         StringBuilder ingredientsListBuilder = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             RecipeIngredient ingredient = ingredients.get(i);
-                    ingredientsListBuilder
+            ingredientsListBuilder
                     .append(i + 1)
                     .append(". ")
                     .append(capitalizeFirstLetter(ingredient.getIngredient()))

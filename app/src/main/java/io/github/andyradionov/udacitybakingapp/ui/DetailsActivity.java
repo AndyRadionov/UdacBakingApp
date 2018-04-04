@@ -1,21 +1,18 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.app.FragmentManager;
 
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 
 public class DetailsActivity extends BaseDrawerActivity
-    implements StepDetailsFragment.StepNavigationHandler {
+        implements StepDetailsFragment.StepNavigationHandler {
 
     public static final int REQUEST_SHOW_DETAILS = 20;
     public static final int RESULT_SHOW_PREVIOUS = 21;
     public static final int RESULT_SHOW_NEXT = 22;
-
 
     public static final String RECIPE_EXTRA = "recipe_extra";
     public static final String STEP_NUMBER_EXTRA = "step_number_extra";

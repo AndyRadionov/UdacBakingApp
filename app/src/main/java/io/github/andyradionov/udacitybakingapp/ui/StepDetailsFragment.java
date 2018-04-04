@@ -1,42 +1,16 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
-
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
 import io.github.andyradionov.udacitybakingapp.databinding.FragmentStepDetailsBinding;
@@ -72,8 +46,6 @@ public class StepDetailsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
         try {
             mNavigationHandler = (StepNavigationHandler) context;
         } catch (ClassCastException e) {
@@ -95,13 +67,12 @@ public class StepDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Timber.d("onCreateView");
-
+        setRetainInstance(true);
         mBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details, container, false);
 
         setUpButtons(mBinding.btnPrevStep, mBinding.btnNextStep);
         setButtonsEnabled(mBinding.btnPrevStep, mBinding.btnNextStep);
-
 
         RecipeStep recipeStep = mRecipe.getSteps().get(mStepIndex);
         mBinding.tvRecipeInstructions.setText(recipeStep.getDescription());

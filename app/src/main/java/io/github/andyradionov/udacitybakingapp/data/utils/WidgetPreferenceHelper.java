@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import io.github.andyradionov.udacitybakingapp.R;
 
 /**

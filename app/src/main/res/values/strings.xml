@@ -2,13 +2,11 @@
     <string name="app_name">UdacityBakingApp</string>
     <string name="recipes_list_load_error">Cant load recipes list!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pause">Pause</string>
     <string name="play">Play</string>
     <string name="restart">Restart</string>
 
-    <string name="step_number">Step #%d</string>
+    <string name="step_title">Step : %s</string>
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Close menu</string>
     <string name="appwidget_text">EXAMPLE</string>

@@ -1,31 +1,16 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
-import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends BaseDrawerActivity
@@ -38,7 +23,8 @@ public class MainActivity extends BaseDrawerActivity
 
         prepareDrawer();
 
-        RecipesListAdapter adapter = new RecipesListAdapter(this, mRecipes);
+        Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
+        RecipesListAdapter adapter = new RecipesListAdapter(this, this, recipes);
         binding.rvRecipesContainer.setAdapter(adapter);
 
         binding.rvRecipesContainer.setLayoutManager(getLayoutManager());

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:padding="32dp"
-        android:textAlignment="center"
-        android:id="@+id/tv_recipe_name"
+    <data>
+        <variable
+            name="recipeViewModel"
+            type="io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="TEST" />
-</android.support.v7.widget.CardView>
+        android:layout_margin="4dp">
+
+        <TextView
+            android:text="@{recipeViewModel.name}"
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp"
+            android:textAlignment="center"
+            tools:text="TEST" />
+    </android.support.v7.widget.CardView>
+</layout>

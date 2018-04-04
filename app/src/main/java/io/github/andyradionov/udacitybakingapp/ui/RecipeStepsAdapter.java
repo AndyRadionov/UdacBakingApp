@@ -1,16 +1,19 @@
-package io.github.andyradionov.udacitybakingapp;
+package io.github.andyradionov.udacitybakingapp.ui;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
-import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
+import io.github.andyradionov.udacitybakingapp.databinding.ItemIngredientsCardBinding;
+import io.github.andyradionov.udacitybakingapp.databinding.ItemStepCardBinding;
+import io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel;
 import timber.log.Timber;
 
 /**
@@ -43,23 +46,26 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     public RecipeStepViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder");
 
-        int layoutId;
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        RecipeViewModel viewModel = new RecipeViewModel(mRecipe);
         switch (viewType) {
             case VIEW_TYPE_INGREDIENTS: {
-                layoutId = R.layout.item_ingrediends_card;
-                break;
+                ItemIngredientsCardBinding binding = DataBindingUtil
+                        .inflate(inflater, R.layout.item_ingredients_card, parent, false);
+                binding.setRecipeViewModel(viewModel);
+                return new RecipeStepViewHolder(binding);
             }
             case VIEW_TYPE_STEPS: {
-                layoutId = R.layout.item_step_card;
-                break;
+                ItemStepCardBinding binding = DataBindingUtil
+                        .inflate(inflater, R.layout.item_step_card, parent, false);
+                binding.setRecipeViewModel(viewModel);
+                return new RecipeStepViewHolder(binding);
             }
             default:
                 throw new IllegalArgumentException("Invalid view type, value of " + viewType);
         }
 
-        CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(layoutId, parent, false);
-        return new RecipeStepViewHolder(cardView);
+
     }
 
     @Override
@@ -103,30 +109,26 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     public class RecipeStepViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private CardView recipeCard;
+        private ViewDataBinding mBinding;
 
-        RecipeStepViewHolder(CardView itemView) {
-            super(itemView);
+        RecipeStepViewHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
 
             Timber.d("RecipeListViewHolder Constructor call");
-            recipeCard = itemView;
+            mBinding = binding;
             itemView.setOnClickListener(this);
         }
 
         void bindIngredients() {
             Timber.d("Bind Ingredients");
-            TextView ingredients = recipeCard.findViewById(R.id.tv_ingredients);
-            ingredients.setText(mRecipe.getIngredientsString());
+            mBinding.executePendingBindings();
         }
 
         void bindStep(int position) {
             Timber.d("Bind Step");
 
-            RecipeStep recipeStep = mRecipe.getSteps().get(position - 1);
-            TextView stepNumber = recipeCard.findViewById(R.id.tv_step_number);
-            TextView stepDescription = recipeCard.findViewById(R.id.tv_step_description);
-            stepNumber.setText(mContext.getString(R.string.step_number, position));
-            stepDescription.setText(recipeStep.getShortDescription());
+            ((ItemStepCardBinding) mBinding).getRecipeViewModel().setStepNumber(position);
+            mBinding.executePendingBindings();
         }
 
         @Override
