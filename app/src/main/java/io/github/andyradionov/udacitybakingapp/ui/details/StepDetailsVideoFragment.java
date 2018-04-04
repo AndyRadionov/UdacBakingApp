@@ -28,9 +28,11 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
     public StepDetailsVideoFragment() {
     }
 
-    public static StepDetailsVideoFragment newInstance(Recipe recipe, int stepIndex) {
+    public static StepDetailsVideoFragment newInstance(Recipe recipe, int stepNumber) {
+        Timber.d("setButtonsEnabled() Step: %d, Recipe: %s", stepNumber, recipe);
+
         StepDetailsVideoFragment fragment = new StepDetailsVideoFragment();
-        fragment.setArgsForStepsDetailsFragment(recipe, stepIndex);
+        fragment.setArgsForStepsDetailsFragment(recipe, stepNumber);
         return fragment;
     }
 
@@ -38,6 +40,7 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Timber.d("onCreateView");
+
         setRetainInstance(true);
         FragmentStepDetailsVideoBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details_video, container, false);

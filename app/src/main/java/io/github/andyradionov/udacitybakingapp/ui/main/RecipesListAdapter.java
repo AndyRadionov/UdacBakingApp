@@ -68,8 +68,8 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
 
         RecipeListViewHolder(ItemRecipeCardBinding binding) {
             super(binding.getRoot());
-
             Timber.d("RecipeListViewHolder Constructor call");
+
             mBinding = binding;
             mBinding.setRecipeViewModel(new RecipeViewModel());
             itemView.setOnClickListener(this);

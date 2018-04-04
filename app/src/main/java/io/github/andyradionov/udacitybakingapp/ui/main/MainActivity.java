@@ -14,6 +14,7 @@ import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityMainBinding;
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
 import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
+import timber.log.Timber;
 
 public class MainActivity extends BaseDrawerActivity
         implements RecipesListAdapter.OnRecipeItemClickListener {
@@ -21,6 +22,8 @@ public class MainActivity extends BaseDrawerActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate()");
+
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         prepareDrawer();
@@ -34,6 +37,8 @@ public class MainActivity extends BaseDrawerActivity
 
     @Override
     public void onRecipeItemClick(Recipe recipe) {
+        Timber.d("onRecipeItemClick(): %s", recipe);
+
         Intent startBakingActivity = new Intent(this, BakingActivity.class);
         startBakingActivity.putExtra(BakingActivity.RECIPE_EXTRA, recipe);
         startActivity(startBakingActivity);
@@ -41,6 +46,8 @@ public class MainActivity extends BaseDrawerActivity
 
     @NonNull
     private RecyclerView.LayoutManager getLayoutManager() {
+        Timber.d("getLayoutManager()");
+
         RecyclerView.LayoutManager layoutManager;
         if (isTablet()) {
             layoutManager = new GridLayoutManager(this, 3);
@@ -51,6 +58,8 @@ public class MainActivity extends BaseDrawerActivity
     }
 
     private boolean isTablet() {
+        Timber.d("isTablet()");
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;

@@ -25,6 +25,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 Recipe recipe, int appWidgetId) {
+        Timber.d("updateAppWidget() with Recipe: %s", recipe);
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
@@ -49,6 +50,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Timber.d("onUpdate()");
+
         int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
         Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
 
@@ -72,8 +75,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Timber.d("onReceive" + intent.getAction());
+
         int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
         Recipe[] recipes = RecipesLoader.loadFromJsonFile(context);
         int minRecipeId = 1;
@@ -98,6 +101,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     }
 
     private static PendingIntent getPendingSelfIntent(Context context, String action) {
+        Timber.d("getPendingSelfIntent()");
         Intent intent = new Intent(context, RecipeWidgetProvider.class);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);

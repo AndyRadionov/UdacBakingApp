@@ -26,6 +26,7 @@ import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.app.App;
 import io.github.andyradionov.udacitybakingapp.databinding.FragmentStepDetailsVideoBinding;
 import io.github.andyradionov.udacitybakingapp.viewmodels.VideoPlayerViewModel;
+import timber.log.Timber;
 
 /**
  * @author Andrey Radionov
@@ -41,6 +42,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     private DefaultTrackSelector mTrackSelector;
 
     public VideoPlayerComponent(Context context, FragmentStepDetailsVideoBinding binding, VideoPlayerViewModel viewModel) {
+        Timber.d("VideoPlayerComponent constructor call");
+
         mContext = context;
         mBinding = binding;
         mViewModel = viewModel;
@@ -55,12 +58,14 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void onCreate() {
+        Timber.d("onCreate()");
         mBinding.playerView.requestFocus();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
         if (Util.SDK_INT > 23) {
+            Timber.d("onStart()");
             initializeVideo();
         }
     }
@@ -68,6 +73,7 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onStop() {
         if (Util.SDK_INT > 23) {
+            Timber.d("onStop()");
             releasePlayer();
         }
     }
@@ -75,6 +81,7 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void onPause() {
         if (Util.SDK_INT <= 23) {
+            Timber.d("onPause()");
             releasePlayer();
         }
     }
@@ -82,6 +89,7 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onResume() {
         if ((Util.SDK_INT <= 23)) {
+            Timber.d("onResume()");
             initializeVideo();
         }
     }
@@ -100,6 +108,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        Timber.d("onPlayerStateChanged() state: %d", playbackState);
+
         if (playbackState == Player.STATE_BUFFERING) {
             setPlayerState(View.VISIBLE, false);
         } else {
@@ -117,6 +127,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     @Override
     public void onPlayerError(ExoPlaybackException e) {
+        Timber.d("onPlayerError() error: %s", e.getMessage());
+
         if (!App.isInternetAvailable(mContext)) {
             showPlayerErrorMessage(mContext.getString(R.string.error_no_internet));
         } else {
@@ -137,6 +149,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     }
 
     private void initializeVideo() {
+        Timber.d("initializeVideo()");
+
         if (App.isInternetAvailable(mContext)) {
             setErrorViewsVisibility(true, View.INVISIBLE);
             initializePlayer();
@@ -147,6 +161,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     private void initializePlayer() {
         if (mExoPlayer == null) {
+            Timber.d("initializePlayer()");
+
             mTrackSelector = new DefaultTrackSelector();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, mTrackSelector);
 
@@ -169,6 +185,7 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     private void releasePlayer() {
         if (mBinding.playerView != null) {
+            Timber.d("releasePlayer()");
             updateResumePosition();
             mExoPlayer.stop();
             mExoPlayer.release();
@@ -178,23 +195,27 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     }
 
     private void showPlayerErrorMessage(String error) {
+        Timber.d("showPlayerErrorMessage()");
         mBinding.tvVideoError.setText(error);
         setErrorViewsVisibility(false, View.VISIBLE);
     }
 
     private void setPlayerState(int loadingIndicatorVisibility, boolean isPlayerControlEnabled) {
+        Timber.d("setPlayerState()");
         mBinding.pbVideoIndicator.setVisibility(loadingIndicatorVisibility);
         mBinding.playerControl.setEnabled(isPlayerControlEnabled);
         mBinding.playerControl.setEnabled(isPlayerControlEnabled);
     }
 
     private void setErrorViewsVisibility(boolean isPlayerControlEnabled, int visibility) {
+        Timber.d("setErrorViewsVisibility()");
         mBinding.playerControl.setEnabled(isPlayerControlEnabled);
         mBinding.tvVideoError.setVisibility(visibility);
         mBinding.btnRefresh.setVisibility(visibility);
     }
 
     private void updateResumePosition() {
+        Timber.d("updateResumePosition()");
         mViewModel.getPosition().setValue(Math.max(0L, mExoPlayer.getCurrentPosition()));
     }
 }

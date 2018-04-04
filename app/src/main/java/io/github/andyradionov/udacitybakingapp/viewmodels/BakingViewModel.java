@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import timber.log.Timber;
 
 /**
  * @author Andrey Radionov
@@ -27,6 +28,7 @@ public class BakingViewModel extends ViewModel {
     }
 
     public MutableLiveData<Integer> getStepNumber() {
+        Timber.d("getStepNumber()");
         if (mStepNumber == null) {
             mStepNumber = new MutableLiveData<>();
         }
@@ -34,11 +36,13 @@ public class BakingViewModel extends ViewModel {
     }
 
     public void decStepNumber() {
+        Timber.d("decStepNumber()");
         int stepNumber = getStepNumber().getValue();
         getStepNumber().setValue(--stepNumber);
     }
 
     public void incStepNumber() {
+        Timber.d("incStepNumber()");
         int stepNumber = getStepNumber().getValue();
         getStepNumber().setValue(++stepNumber);
     }

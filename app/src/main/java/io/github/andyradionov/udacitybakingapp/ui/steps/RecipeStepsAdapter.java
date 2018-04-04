@@ -89,6 +89,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
     @Override
     public int getItemCount() {
+        Timber.d("getItemCount()");
         int count = 0;
         if (mRecipe != null) {
             if (mRecipe.getIngredients() != null && !mRecipe.getIngredients().isEmpty()) {
@@ -103,6 +104,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
     @Override
     public int getItemViewType(int position) {
+        Timber.d("getItemViewType() for position: %d", position);
         return position == 0 ? VIEW_TYPE_INGREDIENTS : VIEW_TYPE_STEPS;
     }
 
@@ -113,20 +115,19 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
         RecipeStepViewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
-
             Timber.d("RecipeListViewHolder Constructor call");
+
             mBinding = binding;
             itemView.setOnClickListener(this);
         }
 
         void bindIngredients() {
-            Timber.d("Bind Ingredients");
+            Timber.d("bindIngredients()");
             mBinding.executePendingBindings();
         }
 
         void bindStep(int position) {
-            Timber.d("Bind Step");
-
+            Timber.d("bindStep() for position: %d", position);
             ((ItemStepCardBinding) mBinding).getRecipeViewModel().setStepNumber(position);
             mBinding.executePendingBindings();
         }

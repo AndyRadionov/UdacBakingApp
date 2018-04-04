@@ -32,8 +32,10 @@ public class RecipesLoader {
     }
 
     public static Recipe[] loadFromJsonFile(Context context) {
+        Timber.d("loadFromJsonFile()");
 
         if (sRecipesCache != null) {
+            Timber.d("Load Recipes from cache");
             return sRecipesCache;
         }
 
@@ -56,7 +58,7 @@ public class RecipesLoader {
             sRecipesCache = result;
 
         } catch (Exception e) {
-            Timber.d("loadFromJsonFile");
+            Timber.d("loadFromJsonFile exception: %s", e.getMessage());
             Toast.makeText(context, R.string.recipes_list_load_error, Toast.LENGTH_LONG)
                     .show();
         }
@@ -64,6 +66,8 @@ public class RecipesLoader {
     }
 
     public static Recipe loadRecipeById(Context context, int recipeId) {
+        Timber.d("loadRecipeById(): %d", recipeId);
+
         if (sRecipesCache == null) {
             loadFromJsonFile(context);
         }
@@ -73,6 +77,7 @@ public class RecipesLoader {
                 return recipe;
             }
         }
+        Timber.d("Return empty Recipe");
         return new Recipe();
     }
 

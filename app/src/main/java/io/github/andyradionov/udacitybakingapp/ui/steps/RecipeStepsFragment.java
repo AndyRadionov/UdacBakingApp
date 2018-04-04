@@ -30,14 +30,14 @@ public class RecipeStepsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Timber.d("onAttach()");
 
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
         try {
             mStepItemClickListener = (RecipeStepsAdapter.OnStepItemClickListener) context;
             mBakingViewModel = ViewModelProviders.of((FragmentActivity) context)
                     .get(BakingViewModel.class);
         } catch (ClassCastException e) {
+            Timber.d("onAttach() exception: %s", e.getMessage());
             throw new ClassCastException(context.toString()
                     + " must implement OnImageClickListener");
         }
@@ -49,6 +49,7 @@ public class RecipeStepsFragment extends Fragment {
                              Bundle savedInstanceState) {
         Timber.d("RecipeStepsFragment onCreateView");
         setRetainInstance(true);
+
         FragmentRecipeStepsBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_recipe_steps, container, false);
 

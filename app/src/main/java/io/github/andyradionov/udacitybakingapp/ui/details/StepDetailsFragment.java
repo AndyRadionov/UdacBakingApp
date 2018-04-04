@@ -36,19 +36,23 @@ public class StepDetailsFragment extends Fragment {
         void onNextClick();
     }
 
-    public static StepDetailsFragment newInstance(Recipe recipe, int stepIndex) {
+    public static StepDetailsFragment newInstance(Recipe recipe, int stepNumber) {
+        Timber.d("newInstance() Step: %d, Recipe: %s", stepNumber, recipe);
+
         StepDetailsFragment fragment = new StepDetailsFragment();
-        fragment.setArgsForStepsDetailsFragment(recipe, stepIndex);
+        fragment.setArgsForStepsDetailsFragment(recipe, stepNumber);
         return fragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Timber.d("onAttach()");
 
         try {
             mNavigationHandler = (StepNavigationHandler) context;
         } catch (ClassCastException e) {
+            Timber.d("onAttach exception: %s", e.getMessage());
             throw new ClassCastException(context.toString()
                     + " must implement OnImageClickListener");
         }
@@ -57,6 +61,8 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate()");
+
         if (getArguments() != null) {
             mRecipe = getArguments().getParcelable(RECIPE_PARAM);
             mStepIndex = getArguments().getInt(STEP_INDEX_PARAM);
@@ -67,6 +73,7 @@ public class StepDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Timber.d("onCreateView");
+
         setRetainInstance(true);
         mBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details, container, false);
@@ -81,6 +88,8 @@ public class StepDetailsFragment extends Fragment {
     }
 
     protected void setArgsForStepsDetailsFragment(Recipe recipe, int stepNumber) {
+        Timber.d("setArgsForStepsDetailsFragment() Step: %d, Recipe: %s", stepNumber, recipe);
+
         Bundle args = new Bundle();
         args.putParcelable(RECIPE_PARAM, recipe);
         args.putInt(STEP_INDEX_PARAM, stepNumber);
@@ -103,6 +112,8 @@ public class StepDetailsFragment extends Fragment {
     }
 
     protected void setButtonsEnabled(Button prev, Button next) {
+        Timber.d("setButtonsEnabled()");
+
         if (mStepIndex == 0) {
             prev.setEnabled(false);
         }

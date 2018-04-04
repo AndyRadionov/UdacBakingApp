@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
+import timber.log.Timber;
 
 public class DetailsActivity extends BaseDrawerActivity
         implements StepDetailsFragment.StepNavigationHandler {
@@ -21,8 +22,9 @@ public class DetailsActivity extends BaseDrawerActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        Timber.d("onCreate()");
 
+        setContentView(R.layout.activity_details);
         prepareDrawer();
 
         Intent startIntent = getIntent();
@@ -37,12 +39,14 @@ public class DetailsActivity extends BaseDrawerActivity
 
     @Override
     public void onPreviousClick() {
+        Timber.d("onPreviousClick()");
         setResult(RESULT_SHOW_PREVIOUS);
         finish();
     }
 
     @Override
     public void onNextClick() {
+        Timber.d("onNextClick()");
         setResult(RESULT_SHOW_NEXT);
         finish();
     }

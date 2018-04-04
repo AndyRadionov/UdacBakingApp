@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import io.github.andyradionov.udacitybakingapp.R;
+import timber.log.Timber;
 
 /**
  * @author Andrey Radionov
@@ -16,6 +17,7 @@ public class WidgetPreferenceHelper {
     }
 
     public static int loadRecipeId(Context context) {
+        Timber.d("loadRecipeId()");
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         return sharedPrefs.getInt(
@@ -24,6 +26,7 @@ public class WidgetPreferenceHelper {
     }
 
     public static void updateRecipeId(Context context, int recipeId) {
+        Timber.d("updateRecipeId(): %d", recipeId);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         sharedPrefs.edit()

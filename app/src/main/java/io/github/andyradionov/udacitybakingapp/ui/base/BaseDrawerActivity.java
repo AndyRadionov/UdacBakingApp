@@ -23,6 +23,7 @@ import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsVideoFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.DrawerViewModel;
+import timber.log.Timber;
 
 /**
  * @author Andrey Radionov
@@ -36,6 +37,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Timber.d("onOptionsItemSelected(): %s", item.getTitle());
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
@@ -49,6 +52,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     protected void prepareDrawer() {
+        Timber.d("prepareDrawer()");
+
         mDrawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel.class);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -83,6 +88,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     protected Fragment getDetailsFragment(Recipe recipe, int stepNumber) {
+        Timber.d("getDetailsFragment() for step: %d", stepNumber);
+
         Fragment fragment;
         if (TextUtils.isEmpty(recipe.getVideoUrlForStep(stepNumber))) {
             fragment = StepDetailsFragment.newInstance(recipe, stepNumber);
@@ -93,6 +100,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     protected void replaceDetailsFragment(Recipe recipe, int stepNumber) {
+        Timber.d("replaceDetailsFragment() for step: %d", stepNumber);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
@@ -100,6 +109,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        Timber.d("setupDrawerContent()");
+
         final Menu menu = mNavigationView.getMenu();
         Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
         for (int i = 0; i < recipes.length; i++) {
@@ -118,6 +129,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     }
 
     private void startStepsActivity(Recipe recipe) {
+        Timber.d("startStepsActivity()");
+
         Intent startSteps = new Intent(this, BakingActivity.class);
         startSteps.putExtra(BakingActivity.RECIPE_EXTRA, recipe);
         startActivity(startSteps);

@@ -29,8 +29,9 @@ public class BakingActivity extends BaseDrawerActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityBakingBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
         Timber.d("onCreate");
+
+        ActivityBakingBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
         prepareDrawer();
 
         Intent startIntent = getIntent();
@@ -60,6 +61,8 @@ public class BakingActivity extends BaseDrawerActivity
 
     @Override
     public void onStepItemClick(int stepNumber) {
+        Timber.d("onStepItemClick(): %d", stepNumber);
+
         mBakingViewModel.getStepNumber().setValue(stepNumber);
         if (mIsTwoPane) {
             replaceDetailsFragment(mBakingViewModel.getRecipe().getValue(), stepNumber);
@@ -70,6 +73,7 @@ public class BakingActivity extends BaseDrawerActivity
 
     @Override
     public void onPreviousClick() {
+        Timber.d("onPreviousClick()");
         mBakingViewModel.decStepNumber();
         replaceDetailsFragment(mBakingViewModel.getRecipe().getValue(),
                 mBakingViewModel.getStepNumber().getValue());
@@ -77,6 +81,7 @@ public class BakingActivity extends BaseDrawerActivity
 
     @Override
     public void onNextClick() {
+        Timber.d("onNextClick()");
         mBakingViewModel.incStepNumber();
         replaceDetailsFragment(mBakingViewModel.getRecipe().getValue(),
                 mBakingViewModel.getStepNumber().getValue());
@@ -84,6 +89,8 @@ public class BakingActivity extends BaseDrawerActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Timber.d("onActivityResult()");
+
         if (requestCode == DetailsActivity.REQUEST_SHOW_DETAILS) {
             if (resultCode == DetailsActivity.RESULT_SHOW_PREVIOUS) {
                 mBakingViewModel.decStepNumber();
@@ -96,6 +103,8 @@ public class BakingActivity extends BaseDrawerActivity
     }
 
     private void startDetailsActivity() {
+        Timber.d("startDetailsActivity()");
+
         Intent startDetails = new Intent(this, DetailsActivity.class);
         startDetails.putExtra(DetailsActivity.RECIPE_EXTRA,
                 mBakingViewModel.getRecipe().getValue());
