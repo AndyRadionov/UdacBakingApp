@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
 
 public class DetailsActivity extends BaseDrawerActivity
         implements StepDetailsFragment.StepNavigationHandler {

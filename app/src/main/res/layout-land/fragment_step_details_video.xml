@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context="io.github.andyradionov.udacitybakingapp.ui.DetailsActivity">
+        tools:context="io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

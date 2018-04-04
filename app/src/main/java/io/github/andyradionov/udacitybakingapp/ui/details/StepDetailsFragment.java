@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.details;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -88,7 +88,6 @@ public class StepDetailsFragment extends Fragment {
     }
 
     protected void setUpButtons(Button prev, Button next) {
-
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

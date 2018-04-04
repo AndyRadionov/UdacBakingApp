@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.main;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

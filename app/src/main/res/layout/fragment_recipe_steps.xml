@@ -5,5 +5,5 @@
         android:id="@+id/rv_steps_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.github.andyradionov.udacitybakingapp.ui.RecipeStepsFragment" />
+        tools:context="io.github.andyradionov.udacitybakingapp.ui.steps.RecipeStepsFragment" />
 </layout>

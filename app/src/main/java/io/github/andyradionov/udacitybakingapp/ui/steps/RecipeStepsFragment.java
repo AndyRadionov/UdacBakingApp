@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.steps;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;

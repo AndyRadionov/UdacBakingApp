@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.main;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -12,6 +12,8 @@ import android.util.DisplayMetrics;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityMainBinding;
+import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
+import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 
 public class MainActivity extends BaseDrawerActivity
         implements RecipesListAdapter.OnRecipeItemClickListener {

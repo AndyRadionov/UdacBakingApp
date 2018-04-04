@@ -17,6 +17,9 @@ public class Recipe implements Parcelable {
     private int servings;
     private String image;
 
+    public Recipe() {
+    }
+
     protected Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -87,7 +90,6 @@ public class Recipe implements Parcelable {
     }
 
     public String getIngredientsString() {
-
         StringBuilder ingredientsListBuilder = new StringBuilder();
         for (int i = 0; i < ingredients.size(); i++) {
             RecipeIngredient ingredient = ingredients.get(i);

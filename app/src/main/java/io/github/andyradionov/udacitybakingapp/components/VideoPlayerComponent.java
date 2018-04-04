@@ -86,15 +86,6 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
         }
     }
 
-    public void initializeVideo() {
-        if (App.isInternetAvailable(mContext)) {
-            hidePlayerErrorMessage();
-            initializePlayer();
-        } else {
-            showPlayerErrorMessage(mContext.getString(R.string.error_no_internet));
-        }
-    }
-
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
     }
@@ -110,13 +101,9 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         if (playbackState == Player.STATE_BUFFERING) {
-            mBinding.pbVideoIndicator.setVisibility(View.VISIBLE);
-            mBinding.playerControl.setEnabled(false);
-            mBinding.playerControl.setEnabled(false);
+            setPlayerState(View.VISIBLE, false);
         } else {
-            mBinding.pbVideoIndicator.setVisibility(View.INVISIBLE);
-            mBinding.playerControl.setEnabled(true);
-            mBinding.playerControl.setEnabled(true);
+            setPlayerState(View.INVISIBLE, true);
         }
     }
 
@@ -149,27 +136,13 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     public void onSeekProcessed() {
     }
 
-    private void releasePlayer() {
-        if (mBinding.playerView != null) {
-            updateResumePosition();
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-            mTrackSelector = null;
+    private void initializeVideo() {
+        if (App.isInternetAvailable(mContext)) {
+            setErrorViewsVisibility(true, View.INVISIBLE);
+            initializePlayer();
+        } else {
+            showPlayerErrorMessage(mContext.getString(R.string.error_no_internet));
         }
-    }
-
-    private void showPlayerErrorMessage(String error) {
-        mBinding.playerControl.setEnabled(false);
-        mBinding.tvVideoError.setText(error);
-        mBinding.tvVideoError.setVisibility(View.VISIBLE);
-        mBinding.btnRefresh.setVisibility(View.VISIBLE);
-    }
-
-    private void hidePlayerErrorMessage() {
-        mBinding.playerControl.setEnabled(true);
-        mBinding.tvVideoError.setVisibility(View.INVISIBLE);
-        mBinding.btnRefresh.setVisibility(View.INVISIBLE);
     }
 
     private void initializePlayer() {
@@ -192,6 +165,33 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
             }
 
         }
+    }
+
+    private void releasePlayer() {
+        if (mBinding.playerView != null) {
+            updateResumePosition();
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+            mTrackSelector = null;
+        }
+    }
+
+    private void showPlayerErrorMessage(String error) {
+        mBinding.tvVideoError.setText(error);
+        setErrorViewsVisibility(false, View.VISIBLE);
+    }
+
+    private void setPlayerState(int loadingIndicatorVisibility, boolean isPlayerControlEnabled) {
+        mBinding.pbVideoIndicator.setVisibility(loadingIndicatorVisibility);
+        mBinding.playerControl.setEnabled(isPlayerControlEnabled);
+        mBinding.playerControl.setEnabled(isPlayerControlEnabled);
+    }
+
+    private void setErrorViewsVisibility(boolean isPlayerControlEnabled, int visibility) {
+        mBinding.playerControl.setEnabled(isPlayerControlEnabled);
+        mBinding.tvVideoError.setVisibility(visibility);
+        mBinding.btnRefresh.setVisibility(visibility);
     }
 
     private void updateResumePosition() {

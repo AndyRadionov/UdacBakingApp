@@ -18,7 +18,6 @@ public class App extends Application {
         Timber.plant(new Timber.DebugTree());
     }
 
-
     /**
      * Check if Internet is Available on device
      *

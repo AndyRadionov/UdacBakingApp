@@ -6,7 +6,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.github.andyradionov.udacitybakingapp.ui.BakingActivity">
+        tools:context="io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity">
 
         <FrameLayout
             android:id="@+id/master_list_fragment"

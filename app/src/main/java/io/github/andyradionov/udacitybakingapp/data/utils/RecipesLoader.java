@@ -2,7 +2,6 @@ package io.github.andyradionov.udacitybakingapp.data.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -19,6 +18,7 @@ import java.lang.reflect.Type;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
+import timber.log.Timber;
 
 /**
  * @author Andrey Radionov
@@ -26,7 +26,6 @@ import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
 
 public class RecipesLoader {
 
-    private static final String TAG = RecipesLoader.class.getSimpleName();
     private static Recipe[] sRecipesCache;
 
     private RecipesLoader() {
@@ -57,7 +56,7 @@ public class RecipesLoader {
             sRecipesCache = result;
 
         } catch (Exception e) {
-            Log.d(TAG, "loadFromJsonFile");
+            Timber.d("loadFromJsonFile");
             Toast.makeText(context, R.string.recipes_list_load_error, Toast.LENGTH_LONG)
                     .show();
         }
@@ -74,7 +73,7 @@ public class RecipesLoader {
                 return recipe;
             }
         }
-        return null;
+        return new Recipe();
     }
 
     private static class StepDeserializer implements JsonDeserializer<RecipeStep> {

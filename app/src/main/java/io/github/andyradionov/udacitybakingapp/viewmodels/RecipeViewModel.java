@@ -50,11 +50,6 @@ public class RecipeViewModel extends BaseObservable {
         return mRecipe.getIngredientsString();
     }
 
-    @Bindable
-    public int getStepNumber() {
-        return mStepNumber;
-    }
-
     public void setStepNumber(int stepNumber) {
         mStepNumber = stepNumber;
         notifyChange();

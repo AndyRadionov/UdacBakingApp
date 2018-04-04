@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.base;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -19,6 +19,9 @@ import android.view.MenuItem;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
+import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
+import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
+import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsVideoFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.DrawerViewModel;
 
 /**

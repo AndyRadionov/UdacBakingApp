@@ -12,7 +12,7 @@ import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
 import io.github.andyradionov.udacitybakingapp.data.utils.WidgetPreferenceHelper;
-import io.github.andyradionov.udacitybakingapp.ui.BakingActivity;
+import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import timber.log.Timber;
 
 /**

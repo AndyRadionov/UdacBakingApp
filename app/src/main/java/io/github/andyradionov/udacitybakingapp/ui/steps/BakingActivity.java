@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacitybakingapp.ui;
+package io.github.andyradionov.udacitybakingapp.ui.steps;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBinding;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBindingSw600dpImpl;
+import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
+import io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity;
+import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
+import io.github.andyradionov.udacitybakingapp.ui.steps.RecipeStepsAdapter;
+import io.github.andyradionov.udacitybakingapp.ui.steps.RecipeStepsFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.BakingViewModel;
 import timber.log.Timber;
 
