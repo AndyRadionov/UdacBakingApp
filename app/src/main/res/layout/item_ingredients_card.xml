@@ -19,24 +19,22 @@
             android:padding="16dp">
 
             <TextView
-                android:textColor="@android:color/black"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/card_margin"
                 android:text="@string/ingredients_title"
                 android:textAlignment="textStart"
-                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/big_text"
                 android:textStyle="bold|italic" />
 
             <TextView
-                android:textColor="@android:color/black"
-
-                android:text="@{recipeViewModel.stepIngredients}"
                 android:id="@+id/tv_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:text="@{recipeViewModel.stepIngredients}"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/big_text" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </layout>

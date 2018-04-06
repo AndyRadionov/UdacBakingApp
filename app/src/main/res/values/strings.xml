@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UdacityBakingApp</string>
+    <string name="app_name">@string/baking_recipes</string>
     <string name="recipes_list_load_error">Cant load recipes list!</string>
 
     <string name="pause">Pause</string>
@@ -17,4 +17,7 @@
 
     <string name="error_no_internet">No Internet available</string>
     <string name="error_loading_video">Loading video Error</string>
+    <string name="baking_recipes">Baking Recipes</string>
+    <string name="next_step">Next Step</string>
+    <string name="previous_step">Previous step</string>
 </resources>

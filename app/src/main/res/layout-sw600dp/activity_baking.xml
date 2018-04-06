@@ -15,7 +15,7 @@
 
             <FrameLayout
                 android:id="@+id/master_list_fragment"
-                android:layout_width="320dp"
+                android:layout_width="@dimen/master_width"
                 android:layout_height="match_parent" />
 
             <View

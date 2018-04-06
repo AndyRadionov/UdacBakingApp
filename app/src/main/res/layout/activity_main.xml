@@ -9,10 +9,10 @@
         tools:context="io.github.andyradionov.udacitybakingapp.ui.main.MainActivity">
 
         <android.support.v7.widget.RecyclerView
-            android:background="@drawable/screen_bg_pattern"
             android:id="@+id/rv_recipes_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/screen_bg_pattern" />
 
         <include layout="@layout/drawer_navigation" />
 

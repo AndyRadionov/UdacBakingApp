@@ -35,7 +35,6 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     protected DrawerViewModel mDrawerViewModel;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    ListView mDrawerList;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Timber.d("onOptionsItemSelected(): %s", item.getTitle());
@@ -54,8 +53,6 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
 
     protected void prepareDrawer() {
         Timber.d("prepareDrawer()");
-
-        mDrawerList = findViewById(R.id.navList);
 
         mDrawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel.class);
         ActionBar actionBar = getSupportActionBar();
