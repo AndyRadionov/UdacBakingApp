@@ -41,7 +41,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     private SimpleExoPlayer mExoPlayer;
     private DefaultTrackSelector mTrackSelector;
 
-    public VideoPlayerComponent(Context context, FragmentStepDetailsVideoBinding binding, VideoPlayerViewModel viewModel) {
+    public VideoPlayerComponent(Context context, FragmentStepDetailsVideoBinding binding,
+                                VideoPlayerViewModel viewModel) {
         Timber.d("VideoPlayerComponent constructor call");
 
         mContext = context;
@@ -186,11 +187,13 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
     private void releasePlayer() {
         if (mBinding.playerView != null) {
             Timber.d("releasePlayer()");
-            updateResumePosition();
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
-            mTrackSelector = null;
+            if (mExoPlayer != null) {
+                updateResumePosition();
+                mExoPlayer.stop();
+                mExoPlayer.release();
+                mExoPlayer = null;
+                mTrackSelector = null;
+            }
         }
     }
 

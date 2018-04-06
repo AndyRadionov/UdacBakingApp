@@ -15,6 +15,7 @@ import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
@@ -34,7 +35,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     protected DrawerViewModel mDrawerViewModel;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-
+    ListView mDrawerList;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Timber.d("onOptionsItemSelected(): %s", item.getTitle());
@@ -54,6 +55,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
     protected void prepareDrawer() {
         Timber.d("prepareDrawer()");
 
+        mDrawerList = findViewById(R.id.navList);
+
         mDrawerViewModel = ViewModelProviders.of(this).get(DrawerViewModel.class);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -62,7 +65,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         DrawerArrowDrawable drawerArrow = new DrawerArrowDrawable(this);
-        drawerArrow.setColor(getResources().getColor(android.R.color.white));
+        drawerArrow.setColor(getResources().getColor(android.R.color.black));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -85,6 +88,7 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
         if (mNavigationView != null) {
             setupDrawerContent(mNavigationView);
         }
+
     }
 
     protected Fragment getDetailsFragment(Recipe recipe, int stepNumber) {
@@ -112,6 +116,8 @@ public abstract class BaseDrawerActivity extends AppCompatActivity {
         Timber.d("setupDrawerContent()");
 
         final Menu menu = mNavigationView.getMenu();
+        mNavigationView.setItemBackgroundResource(R.drawable.drawer_item_bg);
+
         Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
         for (int i = 0; i < recipes.length; i++) {
             menu.add(0, i, 0, recipes[i].getName());

@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="bottom"
-    android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:id="@+id/drawer_picture"
-        android:background="@drawable/cake"
+        android:background="@drawable/bakery"
         android:layout_width="match_parent"
-        android:layout_height="192dp" />
+        android:scaleType="centerCrop"
+        android:layout_height="160dp" />
 
     <TextView
-        android:paddingBottom="32dp"
         android:id="@+id/drawer_text"
-        app:layout_constraintTop_toBottomOf="@+id/drawer_picture"
-        app:layout_constraintBottom_toBottomOf="@id/drawer_picture"
-        android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/lobster"
+        android:paddingBottom="80dp"
         android:text="Baking Recipes"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-    <View
-        app:layout_constraintTop_toBottomOf="@id/drawer_text"
+        android:textSize="40sp"
+        android:textColor="@color/colorPrimary"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="10"
+        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toBottomOf="@id/drawer_picture"
+        app:layout_constraintTop_toBottomOf="@+id/drawer_picture"
+        tools:layout_editor_absoluteX="16dp" />
 </android.support.constraint.ConstraintLayout>

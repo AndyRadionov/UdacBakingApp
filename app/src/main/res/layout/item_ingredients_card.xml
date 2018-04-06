@@ -19,6 +19,8 @@
             android:padding="16dp">
 
             <TextView
+                android:textColor="@android:color/black"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -28,6 +30,8 @@
                 android:textStyle="bold|italic" />
 
             <TextView
+                android:textColor="@android:color/black"
+
                 android:text="@{recipeViewModel.stepIngredients}"
                 android:id="@+id/tv_ingredients"
                 android:layout_width="match_parent"

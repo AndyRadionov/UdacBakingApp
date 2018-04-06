@@ -6,7 +6,7 @@
     <string name="play">Play</string>
     <string name="restart">Restart</string>
 
-    <string name="step_title">Step : %s</string>
+    <string name="step_title">Step #%d: %s</string>
     <string name="drawer_open">Open menu</string>
     <string name="drawer_close">Close menu</string>
     <string name="appwidget_text">EXAMPLE</string>

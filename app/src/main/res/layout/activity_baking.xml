@@ -13,7 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <include layout="@layout/drawer_navigation" />
+        <!--<include layout="@layout/drawer_navigation" />-->
 
+        <ListView
+            android:id="@+id/navList"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|start"
+            android:background="#ffeeeeee"/>
     </android.support.v4.widget.DrawerLayout>
 </layout>

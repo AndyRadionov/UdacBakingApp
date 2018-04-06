@@ -57,6 +57,12 @@ public class RecipeViewModel extends BaseObservable {
         return mRecipe.getIngredientsString();
     }
 
+    @Bindable
+    public int getStepNumber() {
+        Timber.d("getStepNumber()");
+        return mStepNumber;
+    }
+
     public void setStepNumber(int stepNumber) {
         Timber.d("setStepNumber()");
         mStepNumber = stepNumber;

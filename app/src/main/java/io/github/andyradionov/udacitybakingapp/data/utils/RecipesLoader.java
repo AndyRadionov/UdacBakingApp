@@ -91,6 +91,7 @@ public class RecipesLoader {
             int id = jsonObject.get("id").getAsInt();
             String shortDescription = jsonObject.get("shortDescription").getAsString();
             String description = jsonObject.get("description").getAsString();
+            description = description.replaceAll("^\\d+.\\s+", "");
             String videoURL = jsonObject.get("videoURL").getAsString();
             String thumbnailURL = jsonObject.get("thumbnailURL").getAsString();
 

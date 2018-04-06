@@ -31,9 +31,11 @@ public class DetailsActivity extends BaseDrawerActivity
         Recipe recipe = startIntent.getParcelableExtra(RECIPE_EXTRA);
         int stepNumber = startIntent.getIntExtra(STEP_NUMBER_EXTRA, 0);
 
+        setTitle(recipe.getName());
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
+                .replace(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
                 .commit();
     }
 
