@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.Toolbar;
@@ -48,7 +47,7 @@ public class MainActivityTest {
 
 
     @Test
-    public void testClickRecyclerViewItem_OpenStepsActivity() {
+    public void testClickRecyclerViewItem_OpenBakingActivity() {
 
         Context appContext = InstrumentationRegistry.getTargetContext();
         Recipe[] recipes = RecipesLoader.loadFromJsonFile(appContext);
@@ -88,5 +87,4 @@ public class MainActivityTest {
     private String getString(int resId) {
         return getInstrumentation().getTargetContext().getString(resId);
     }
-
 }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.net.Uri;
+import android.support.test.espresso.IdlingResource;
 import android.view.View;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -22,6 +23,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import io.github.andyradionov.udacitybakingapp.IdlingResource.SimpleIdlingResource;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.app.App;
 import io.github.andyradionov.udacitybakingapp.databinding.FragmentStepDetailsVideoBinding;
@@ -40,9 +42,10 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
 
     private SimpleExoPlayer mExoPlayer;
     private DefaultTrackSelector mTrackSelector;
-
+    private SimpleIdlingResource mIdlingResource;
     public VideoPlayerComponent(Context context, FragmentStepDetailsVideoBinding binding,
-                                VideoPlayerViewModel viewModel) {
+                                VideoPlayerViewModel viewModel,
+                                IdlingResource idlingResource) {
         Timber.d("VideoPlayerComponent constructor call");
 
         mContext = context;
@@ -112,9 +115,15 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
         Timber.d("onPlayerStateChanged() state: %d", playbackState);
 
         if (playbackState == Player.STATE_BUFFERING) {
-            setPlayerState(View.VISIBLE, false);
-        } else {
-            setPlayerState(View.INVISIBLE, true);
+            setPlayerState(false, View.VISIBLE);
+            if (mIdlingResource != null) {
+                mIdlingResource.setIdleState(false);
+            }
+        } else if (playbackState == Player.STATE_READY){
+            setPlayerState(true, View.INVISIBLE);
+            if (mIdlingResource != null) {
+                mIdlingResource.setIdleState(true);
+            }
         }
     }
 
@@ -203,7 +212,7 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
         setErrorViewsVisibility(false, View.VISIBLE);
     }
 
-    private void setPlayerState(int loadingIndicatorVisibility, boolean isPlayerControlEnabled) {
+    private void setPlayerState(boolean isPlayerControlEnabled, int loadingIndicatorVisibility) {
         Timber.d("setPlayerState()");
         mBinding.pbVideoIndicator.setVisibility(loadingIndicatorVisibility);
         mBinding.playerControl.setEnabled(isPlayerControlEnabled);

@@ -31,7 +31,7 @@ public class BakingActivity extends BaseDrawerActivity
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
 
-        ActivityBakingBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
+        ActivityBakingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
         prepareDrawer();
 
         Intent startIntent = getIntent();
@@ -48,7 +48,7 @@ public class BakingActivity extends BaseDrawerActivity
                     .replace(R.id.master_list_fragment, new RecipeStepsFragment())
                     .commit();
 
-            if (mBinding instanceof ActivityBakingBindingSw600dpImpl) {
+            if (binding instanceof ActivityBakingBindingSw600dpImpl) {
                 mIsTwoPane = true;
 
                 fragmentManager.beginTransaction()
