@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/screen_bg_pattern"
         tools:context="io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity"
-        tools:ignore="ContentDescription">
+        tools:ignore="ContentDescription, RtlHardcoded">
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/player_view"

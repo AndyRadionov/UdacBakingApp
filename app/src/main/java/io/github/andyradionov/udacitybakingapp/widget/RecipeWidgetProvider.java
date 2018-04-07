@@ -61,11 +61,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
-    public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
-        super.onRestored(context, oldWidgetIds, newWidgetIds);
-    }
-
-    @Override
     public void onEnabled(Context context) {
     }
 

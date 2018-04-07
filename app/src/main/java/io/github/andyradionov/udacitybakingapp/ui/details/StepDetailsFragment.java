@@ -21,7 +21,6 @@ public class StepDetailsFragment extends Fragment {
     private static final String RECIPE_PARAM = "recipe_param";
     private static final String STEP_INDEX_PARAM = "step_index_param";
 
-    private FragmentStepDetailsBinding mBinding;
     private StepNavigationHandler mNavigationHandler;
 
     protected Recipe mRecipe;
@@ -75,16 +74,16 @@ public class StepDetailsFragment extends Fragment {
         Timber.d("onCreateView");
 
         setRetainInstance(true);
-        mBinding = DataBindingUtil
+        FragmentStepDetailsBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details, container, false);
 
-        setUpButtons(mBinding.btnPrevStep, mBinding.btnNextStep);
-        setButtonsEnabled(mBinding.btnPrevStep, mBinding.btnNextStep);
+        setUpButtons(binding.btnPrevStep, binding.btnNextStep);
+        setButtonsEnabled(binding.btnPrevStep, binding.btnNextStep);
 
         RecipeStep recipeStep = mRecipe.getSteps().get(mStepIndex);
-        mBinding.tvRecipeInstructions.setText(recipeStep.getDescription());
+        binding.tvRecipeInstructions.setText(recipeStep.getDescription());
 
-        return mBinding.getRoot();
+        return binding.getRoot();
     }
 
     protected void setArgsForStepsDetailsFragment(Recipe recipe, int stepNumber) {

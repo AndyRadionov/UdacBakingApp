@@ -6,7 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/screen_bg_pattern"
-        tools:context="io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity">
+        tools:context="io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity"
+        tools:ignore="RtlHardcoded">
 
         <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/tv_recipe_instructions"

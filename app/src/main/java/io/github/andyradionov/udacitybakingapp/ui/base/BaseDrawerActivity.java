@@ -15,14 +15,13 @@ import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.utils.RecipesLoader;
-import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsVideoFragment;
+import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import io.github.andyradionov.udacitybakingapp.viewmodels.DrawerViewModel;
 import timber.log.Timber;
 

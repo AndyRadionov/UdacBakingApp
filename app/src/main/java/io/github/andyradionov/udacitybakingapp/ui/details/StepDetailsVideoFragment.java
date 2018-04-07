@@ -2,7 +2,6 @@ package io.github.andyradionov.udacitybakingapp.ui.details;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,9 +23,6 @@ import timber.log.Timber;
 
 public class StepDetailsVideoFragment extends StepDetailsFragment implements LifecycleOwner {
 
-    private VideoPlayerViewModel mModel;
-    private DetailsActivity mActivity;
-
     public StepDetailsVideoFragment() {
     }
 
@@ -47,7 +43,7 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
         FragmentStepDetailsVideoBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details_video, container, false);
 
-        mActivity = (DetailsActivity) getActivity();
+        DetailsActivity activity = (DetailsActivity) getActivity();
 
         final RecipeStep recipeStep = mRecipe.getSteps().get(mStepIndex);
 
@@ -55,11 +51,11 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
         setButtonsEnabled(binding.btnPrevStep, binding.btnNextStep);
         binding.tvRecipeInstructions.setText(recipeStep.getDescription());
 
-        mModel = ViewModelProviders.of(this).get(VideoPlayerViewModel.class);
-        mModel.getVideoUrl().setValue(recipeStep.getVideoURL());
+        VideoPlayerViewModel viewModel = ViewModelProviders.of(this).get(VideoPlayerViewModel.class);
+        viewModel.getVideoUrl().setValue(recipeStep.getVideoURL());
 
         getLifecycle().addObserver(new VideoPlayerComponent(
-                getContext(), binding, mModel, mActivity.getIdlingResource()));
+                getContext(), binding, viewModel, activity.getIdlingResource()));
 
         return binding.getRoot();
     }

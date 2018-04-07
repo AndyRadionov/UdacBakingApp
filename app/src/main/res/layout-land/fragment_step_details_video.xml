@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/screen_bg_pattern"
         android:fillViewport="true"
-        tools:context="io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity">
+        tools:context="io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity"
+        tools:ignore="ContentDescription,RtlHardcoded">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
