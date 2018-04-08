@@ -14,6 +14,7 @@
     <string name="ingredients_title">Ingredients</string>
 
     <string name="pref_recipe_id_key" translatable="false">recipe_id</string>
+    <string name="pref_max_recipe_id_key" translatable="false">recipes_count</string>
 
     <string name="error_no_internet">No Internet available</string>
     <string name="error_loading_video">Loading video Error</string>

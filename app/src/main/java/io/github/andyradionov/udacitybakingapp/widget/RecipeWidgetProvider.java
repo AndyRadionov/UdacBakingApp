@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import io.github.andyradionov.udacitybakingapp.R;
+import io.github.andyradionov.udacitybakingapp.app.App;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import io.github.andyradionov.udacitybakingapp.data.network.IngredientsCallback;
 import io.github.andyradionov.udacitybakingapp.data.utils.WidgetPreferenceHelper;
 import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import timber.log.Timber;
@@ -17,7 +19,7 @@ import timber.log.Timber;
 /**
  * Implementation of App Widget functionality.
  */
-public class RecipeWidgetProvider extends AppWidgetProvider {
+public class RecipeWidgetProvider extends AppWidgetProvider implements IngredientsCallback {
 
     private static final String PREV_RECIPE_ACTION = "prev_recipe_action";
     private static final String NEXT_RECIPE_ACTION = "next_recipe_action";
@@ -52,6 +54,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         Timber.d("onUpdate()");
 
         int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
+        App.getBakingNetworkData().loadRecipeById(context, this, recipeId);
 //        Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
 //
 //        for (int appWidgetId : appWidgetIds) {
@@ -71,19 +74,21 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         Timber.d("onReceive" + intent.getAction());
 
-//        int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
-//        Recipe[] recipes = RecipesLoader.loadFromJsonFile(context);
-//        int minRecipeId = 1;
-//        int maxRecipeId = recipes[recipes.length - 1].getId();
-//
-//        if (PREV_RECIPE_ACTION.equals(intent.getAction())) {
-//            recipeId = --recipeId < minRecipeId ? maxRecipeId : recipeId;
-//            WidgetPreferenceHelper.updateRecipeId(context, recipeId);
-//        } else if (NEXT_RECIPE_ACTION.equals(intent.getAction())) {
-//            recipeId = ++recipeId > maxRecipeId ? minRecipeId : recipeId;
-//            WidgetPreferenceHelper.updateRecipeId(context, recipeId);
-//        }
-//
+        int recipeId = WidgetPreferenceHelper.loadRecipeId(context);
+        int minRecipeId = 1;
+        int maxRecipeId = WidgetPreferenceHelper.loadMaxRecipeId(context);
+        Timber.d("=============MAX_ID=" + maxRecipeId);
+        Timber.d("=============ID=" + recipeId);
+        if (PREV_RECIPE_ACTION.equals(intent.getAction())) {
+            recipeId = --recipeId < minRecipeId ? maxRecipeId : recipeId;
+        } else if (NEXT_RECIPE_ACTION.equals(intent.getAction())) {
+            recipeId = ++recipeId > maxRecipeId ? minRecipeId : recipeId;
+        }
+        Timber.d("=============ID=" + recipeId);
+
+        WidgetPreferenceHelper.updateRecipeId(context, recipeId);
+        App.getBakingNetworkData().loadRecipeById(context, this, recipeId);
+
 //        Recipe recipe = RecipesLoader.loadRecipeById(context, recipeId);
 //        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
 //        int[] widgetIds = widgetManager.getAppWidgetIds(
@@ -100,5 +105,14 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
-}
 
+    @Override
+    public void showRecipe(Context context, Recipe recipe) {
+        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
+        int[] widgetIds = widgetManager.getAppWidgetIds(
+                new ComponentName(context, RecipeWidgetProvider.class));
+        for (int appWidgetId : widgetIds) {
+            updateAppWidget(context, widgetManager, recipe, appWidgetId);
+        }
+    }
+}

@@ -33,4 +33,22 @@ public class WidgetPreferenceHelper {
                 .putInt(context.getString(R.string.pref_recipe_id_key), recipeId)
                 .apply();
     }
+
+    public static int loadMaxRecipeId(Context context) {
+        Timber.d("loadMaxRecipeId()");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return sharedPrefs.getInt(
+                context.getString(R.string.pref_max_recipe_id_key),
+                context.getResources().getInteger(R.integer.pref_max_recipe_id_default));
+    }
+
+    public static void updateMaxRecipeId(Context context, int maxRecipeId) {
+        Timber.d("updateMaxRecipeId(): %d", maxRecipeId);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        sharedPrefs.edit()
+                .putInt(context.getString(R.string.pref_max_recipe_id_key), maxRecipeId)
+                .apply();
+    }
 }
