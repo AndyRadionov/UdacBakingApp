@@ -48,7 +48,8 @@ public class RecipeViewModel extends BaseObservable {
     @Bindable
     public String getStepDescription() {
         Timber.d("getStepDescription()");
-        return mRecipe.getSteps().get(mStepNumber - 1).getDescription();
+        return mRecipe.getSteps().get(mStepNumber - 1).getDescription()
+                .replaceAll("^\\d+.\\s+\\p{C}", "");
     }
 
     @Bindable

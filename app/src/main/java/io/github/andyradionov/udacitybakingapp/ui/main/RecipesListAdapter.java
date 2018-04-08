@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemRecipeCardBinding;
@@ -21,20 +24,24 @@ import timber.log.Timber;
 public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.RecipeListViewHolder> {
 
     private Context mContext;
-    private Recipe[] mRecipes;
+    private List<Recipe> mRecipes;
     private OnRecipeItemClickListener mClickListener;
 
     public interface OnRecipeItemClickListener {
         void onRecipeItemClick(Recipe recipe);
     }
 
-    public RecipesListAdapter(Context context, OnRecipeItemClickListener clickListener,
-                              Recipe[] recipes) {
+    public RecipesListAdapter(Context context, OnRecipeItemClickListener clickListener) {
         Timber.d("RecipesListAdapter constructor call");
 
         mContext = context;
         mClickListener = clickListener;
+        mRecipes = new ArrayList<>();
+    }
+
+    public void updateData(List<Recipe> recipes) {
         mRecipes = recipes;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -58,7 +65,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     @Override
     public int getItemCount() {
         Timber.d("getItemCount");
-        return mRecipes != null ? mRecipes.length : 0;
+        return mRecipes != null ? mRecipes.size() : 0;
     }
 
     public class RecipeListViewHolder extends RecyclerView.ViewHolder
@@ -78,7 +85,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         void bind(int position) {
             Timber.d("bind");
 
-            Recipe recipe = mRecipes[position];
+            Recipe recipe = mRecipes.get(position);
 
             mBinding.getRecipeViewModel().setRecipe(recipe);
             mBinding.executePendingBindings();
@@ -87,7 +94,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         @Override
         public void onClick(View v) {
             Timber.d("onClick Recipe");
-            Recipe recipe = mRecipes[getAdapterPosition()];
+            Recipe recipe = mRecipes.get(getAdapterPosition());
             mClickListener.onRecipeItemClick(recipe);
         }
     }

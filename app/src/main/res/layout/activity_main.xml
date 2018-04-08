@@ -8,11 +8,24 @@
         android:layout_height="match_parent"
         tools:context="io.github.andyradionov.udacitybakingapp.ui.main.MainActivity">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_recipes_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/screen_bg_pattern" />
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/pb_recipes_loading"
+                android:layout_width="@dimen/indicator_size"
+                android:layout_height="@dimen/indicator_size"
+                android:layout_centerInParent="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_recipes_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/screen_bg_pattern"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <include layout="@layout/drawer_navigation" />
 

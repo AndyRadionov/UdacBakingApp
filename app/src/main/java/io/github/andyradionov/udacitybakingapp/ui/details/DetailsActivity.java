@@ -31,7 +31,6 @@ public class DetailsActivity extends BaseDrawerActivity
         Timber.d("onCreate()");
 
         setContentView(R.layout.activity_details);
-        prepareDrawer();
 
         Intent startIntent = getIntent();
         Recipe recipe = startIntent.getParcelableExtra(RECIPE_EXTRA);

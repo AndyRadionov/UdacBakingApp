@@ -13,8 +13,6 @@ import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBinding
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
-import io.github.andyradionov.udacitybakingapp.ui.steps.RecipeStepsAdapter;
-import io.github.andyradionov.udacitybakingapp.ui.steps.RecipeStepsFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.BakingViewModel;
 import timber.log.Timber;
 
@@ -30,9 +28,7 @@ public class BakingActivity extends BaseDrawerActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
-
         ActivityBakingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
-        prepareDrawer();
 
         Intent startIntent = getIntent();
         Recipe recipe = startIntent.getParcelableExtra(RECIPE_EXTRA);

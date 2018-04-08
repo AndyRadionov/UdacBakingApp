@@ -8,8 +8,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+
+import java.util.List;
 
 import io.github.andyradionov.udacitybakingapp.R;
+import io.github.andyradionov.udacitybakingapp.app.App;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityMainBinding;
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
@@ -19,20 +23,27 @@ import timber.log.Timber;
 public class MainActivity extends BaseDrawerActivity
         implements RecipesListAdapter.OnRecipeItemClickListener {
 
+    private ActivityMainBinding mBinding;
+    private RecipesListAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate()");
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mAdapter = new RecipesListAdapter(this, this);
+        mBinding.rvRecipesContainer.setAdapter(mAdapter);
 
-        prepareDrawer();
+        mBinding.rvRecipesContainer.setLayoutManager(getLayoutManager());
+    }
 
-        Recipe[] recipes = mDrawerViewModel.getRecipes().getValue();
-        RecipesListAdapter adapter = new RecipesListAdapter(this, this, recipes);
-        binding.rvRecipesContainer.setAdapter(adapter);
-
-        binding.rvRecipesContainer.setLayoutManager(getLayoutManager());
+    @Override
+    public void showRecipes(List<Recipe> recipes) {
+        super.showRecipes(recipes);
+        mBinding.pbRecipesLoading.setVisibility(View.INVISIBLE);
+        mBinding.rvRecipesContainer.setVisibility(View.VISIBLE);
+        mAdapter.updateData(recipes);
     }
 
     @Override
