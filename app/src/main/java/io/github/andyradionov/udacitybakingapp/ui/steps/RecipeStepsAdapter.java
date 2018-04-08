@@ -5,12 +5,17 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemIngredientsCardBinding;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemStepCardBinding;
 import io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel;
@@ -128,7 +133,24 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
         void bindStep(int position) {
             Timber.d("bindStep() for position: %d", position);
-            ((ItemStepCardBinding) mBinding).getRecipeViewModel().setStepNumber(position);
+            ItemStepCardBinding binding = (ItemStepCardBinding) mBinding;
+            RecipeStep step = mRecipe.getSteps().get(position - 1);
+            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                binding.ivStepImage.setVisibility(View.VISIBLE);
+                Picasso.get()
+                        .load(step.getThumbnailURL())
+                        .into(binding.ivStepImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                binding.ivStepImage.setVisibility(View.GONE);
+                            }
+                        });
+            }
+            binding.getRecipeViewModel().setStepNumber(position);
             mBinding.executePendingBindings();
         }
 

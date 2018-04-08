@@ -77,16 +77,25 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
+        <ImageView
+            android:id="@+id/iv_step_details_image"
+            android:layout_width="@dimen/big_picture"
+            android:layout_height="@dimen/big_picture"
+            android:layout_margin="@dimen/details_margin"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btn_prev_step"
+            app:layout_constraintTop_toBottomOf="@+id/guide_horizontal" />
+
         <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/tv_recipe_instructions"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/details_margin"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/regular_text"
             app:layout_constraintBottom_toTopOf="@+id/btn_prev_step"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/iv_step_details_image"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guide_horizontal" />
 

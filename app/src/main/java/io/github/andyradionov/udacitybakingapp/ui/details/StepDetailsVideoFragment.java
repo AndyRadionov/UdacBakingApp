@@ -2,12 +2,17 @@ package io.github.andyradionov.udacitybakingapp.ui.details;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.components.VideoPlayerComponent;
@@ -23,6 +28,9 @@ import timber.log.Timber;
 
 public class StepDetailsVideoFragment extends StepDetailsFragment implements LifecycleOwner {
 
+    private VideoPlayerViewModel mVideoPlayerViewModel;
+    private DetailsActivity mActivity;
+
     public StepDetailsVideoFragment() {
     }
 
@@ -35,6 +43,15 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (DetailsActivity) context;
+        mVideoPlayerViewModel = ViewModelProviders
+                .of(mActivity)
+                .get(VideoPlayerViewModel.class);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Timber.d("onCreateView");
@@ -43,19 +60,33 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
         FragmentStepDetailsVideoBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_step_details_video, container, false);
 
-        DetailsActivity activity = (DetailsActivity) getActivity();
-
         final RecipeStep recipeStep = mRecipe.getSteps().get(mStepIndex);
 
         setUpButtons(binding.btnPrevStep, binding.btnNextStep);
         setButtonsEnabled(binding.btnPrevStep, binding.btnNextStep);
         binding.tvRecipeInstructions.setText(recipeStep.getDescription());
 
-        VideoPlayerViewModel viewModel = ViewModelProviders.of(this).get(VideoPlayerViewModel.class);
-        viewModel.getVideoUrl().setValue(recipeStep.getVideoURL());
+        if (!TextUtils.isEmpty(recipeStep.getThumbnailURL())) {
+            binding.ivStepDetailsImage.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(recipeStep.getThumbnailURL())
+                    .into(binding.ivStepDetailsImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
 
+                        @Override
+                        public void onError(Exception e) {
+                            binding.ivStepDetailsImage.setVisibility(View.GONE);
+                        }
+                    });
+        }
+
+        if (!TextUtils.isEmpty(recipeStep.getVideoURL())) {
+            mVideoPlayerViewModel.getVideoUrl().setValue(recipeStep.getVideoURL());
+        }
         getLifecycle().addObserver(new VideoPlayerComponent(
-                getContext(), binding, viewModel, activity.getIdlingResource()));
+                getContext(), binding, mVideoPlayerViewModel, mActivity.getIdlingResource()));
 
         return binding.getRoot();
     }

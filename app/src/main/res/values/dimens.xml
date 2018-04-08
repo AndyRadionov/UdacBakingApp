@@ -26,5 +26,7 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="small_margin">4dp</dimen>
     <dimen name="step_card_padding">16dp</dimen>
     <dimen name="widget_big_margin">16dp</dimen>
+    <dimen name="big_picture">160dp</dimen>
+    <dimen name="small_picture">80dp</dimen>
 
 </resources>

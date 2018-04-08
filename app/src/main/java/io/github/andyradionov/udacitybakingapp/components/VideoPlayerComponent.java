@@ -51,13 +51,8 @@ public class VideoPlayerComponent implements LifecycleObserver, Player.EventList
         mContext = context;
         mBinding = binding;
         mViewModel = viewModel;
-
-        mBinding.btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initializeVideo();
-            }
-        });
+        mIdlingResource = (SimpleIdlingResource) idlingResource;
+        mBinding.btnRefresh.setOnClickListener(v -> initializeVideo());
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

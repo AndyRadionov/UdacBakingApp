@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="recipeViewModel"
             type="io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel" />
@@ -13,17 +14,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_margin">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/step_card_padding">
+            android:padding="@dimen/step_card_padding"
+            tools:ignore="ContentDescription,RtlHardcoded">
+
+            <ImageView
+                android:id="@+id/iv_step_image"
+                android:layout_width="@dimen/small_picture"
+                android:layout_height="@dimen/small_picture"
+                android:layout_marginRight="@dimen/small_margin"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_step_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_margin"
+                android:layout_toRightOf="@id/iv_step_image"
                 android:text="@{String.format(@string/step_title, recipeViewModel.stepNumber, recipeViewModel.stepShortDescription)}"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
@@ -35,12 +44,14 @@
                 android:id="@+id/tv_step_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_step_number"
+                android:layout_toRightOf="@id/iv_step_image"
                 android:text="@{recipeViewModel.stepDescription}"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/big_text"
                 tools:text="TEST" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 </layout>
