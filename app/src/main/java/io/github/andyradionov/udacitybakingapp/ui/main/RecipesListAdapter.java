@@ -17,6 +17,7 @@ import java.util.List;
 
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
+import io.github.andyradionov.udacitybakingapp.data.utils.ImageHelper;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemRecipeCardBinding;
 import io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel;
 import timber.log.Timber;
@@ -92,19 +93,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
             Recipe recipe = mRecipes.get(position);
 
             if (!TextUtils.isEmpty(recipe.getImage())) {
-                mBinding.ivRecipeImage.setVisibility(View.VISIBLE);
-                Picasso.get()
-                        .load(recipe.getImage())
-                        .into(mBinding.ivRecipeImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                mBinding.ivRecipeImage.setVisibility(View.GONE);
-                            }
-                        });
+                ImageHelper.loadImageIntoView(mBinding.ivRecipeImage, recipe.getImage());
             }
             mBinding.getRecipeViewModel().setRecipe(recipe);
             mBinding.executePendingBindings();

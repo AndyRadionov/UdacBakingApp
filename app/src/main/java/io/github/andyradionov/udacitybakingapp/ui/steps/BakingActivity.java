@@ -2,7 +2,6 @@ package io.github.andyradionov.udacitybakingapp.ui.steps;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -12,8 +11,6 @@ import android.support.v4.app.FragmentManager;
 import io.github.andyradionov.udacitybakingapp.IdlingResource.SimpleIdlingResource;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
-import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBinding;
-import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBindingSw600dpImpl;
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.BakingViewModel;
@@ -92,7 +89,7 @@ public class BakingActivity extends BaseDrawerActivity
         return mIdlingResource;
     }
 
-    protected void replaceDetailsFragment(Recipe recipe, int stepNumber) {
+    private void replaceDetailsFragment(Recipe recipe, int stepNumber) {
         Timber.d("replaceDetailsFragment() for step: %d", stepNumber);
         int fragmentLayoutId = mIsTwoPane ? R.id.detail_fragment : R.id.master_fragment;
 

@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
+import io.github.andyradionov.udacitybakingapp.data.utils.ImageHelper;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemIngredientsCardBinding;
 import io.github.andyradionov.udacitybakingapp.databinding.ItemStepCardBinding;
 import io.github.andyradionov.udacitybakingapp.viewmodels.RecipeViewModel;
@@ -136,19 +137,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             ItemStepCardBinding binding = (ItemStepCardBinding) mBinding;
             RecipeStep step = mRecipe.getSteps().get(position - 1);
             if (!TextUtils.isEmpty(step.getThumbnailURL())) {
-                binding.ivStepImage.setVisibility(View.VISIBLE);
-                Picasso.get()
-                        .load(step.getThumbnailURL())
-                        .into(binding.ivStepImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                binding.ivStepImage.setVisibility(View.GONE);
-                            }
-                        });
+                ImageHelper.loadImageIntoView(binding.ivStepImage, step.getThumbnailURL());
             }
             binding.getRecipeViewModel().setStepNumber(position);
             mBinding.executePendingBindings();

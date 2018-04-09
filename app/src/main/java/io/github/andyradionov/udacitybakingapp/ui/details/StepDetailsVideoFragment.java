@@ -18,6 +18,7 @@ import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.components.VideoPlayerComponent;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
+import io.github.andyradionov.udacitybakingapp.data.utils.ImageHelper;
 import io.github.andyradionov.udacitybakingapp.databinding.FragmentStepDetailsVideoBinding;
 import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import io.github.andyradionov.udacitybakingapp.viewmodels.VideoPlayerViewModel;
@@ -68,19 +69,8 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
         binding.tvRecipeInstructions.setText(recipeStep.getDescription());
 
         if (!TextUtils.isEmpty(recipeStep.getThumbnailURL())) {
+            ImageHelper.loadImageIntoView(binding.ivStepDetailsImage, recipeStep.getThumbnailURL());
             binding.ivStepDetailsImage.setVisibility(View.VISIBLE);
-            Picasso.get()
-                    .load(recipeStep.getThumbnailURL())
-                    .into(binding.ivStepDetailsImage, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            binding.ivStepDetailsImage.setVisibility(View.GONE);
-                        }
-                    });
         }
 
         if (!TextUtils.isEmpty(recipeStep.getVideoURL())) {
