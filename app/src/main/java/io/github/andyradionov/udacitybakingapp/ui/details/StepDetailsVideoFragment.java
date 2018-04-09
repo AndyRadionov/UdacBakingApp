@@ -19,6 +19,7 @@ import io.github.andyradionov.udacitybakingapp.components.VideoPlayerComponent;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.data.model.RecipeStep;
 import io.github.andyradionov.udacitybakingapp.databinding.FragmentStepDetailsVideoBinding;
+import io.github.andyradionov.udacitybakingapp.ui.steps.BakingActivity;
 import io.github.andyradionov.udacitybakingapp.viewmodels.VideoPlayerViewModel;
 import timber.log.Timber;
 
@@ -29,7 +30,7 @@ import timber.log.Timber;
 public class StepDetailsVideoFragment extends StepDetailsFragment implements LifecycleOwner {
 
     private VideoPlayerViewModel mVideoPlayerViewModel;
-    private DetailsActivity mActivity;
+    private BakingActivity mActivity;
 
     public StepDetailsVideoFragment() {
     }
@@ -45,7 +46,7 @@ public class StepDetailsVideoFragment extends StepDetailsFragment implements Lif
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (DetailsActivity) context;
+        mActivity = (BakingActivity) context;
         mVideoPlayerViewModel = ViewModelProviders
                 .of(mActivity)
                 .get(VideoPlayerViewModel.class);

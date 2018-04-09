@@ -67,15 +67,4 @@ public class MainActivity extends BaseDrawerActivity
         }
         return layoutManager;
     }
-
-    private boolean isTablet() {
-        Timber.d("isTablet()");
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int widthPixels = metrics.widthPixels;
-        float scaleFactor = metrics.density;
-        float widthDp = widthPixels / scaleFactor;
-        return widthDp >= 600;
-    }
 }

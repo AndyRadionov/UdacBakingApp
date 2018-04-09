@@ -4,14 +4,17 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 
+import io.github.andyradionov.udacitybakingapp.IdlingResource.SimpleIdlingResource;
 import io.github.andyradionov.udacitybakingapp.R;
 import io.github.andyradionov.udacitybakingapp.data.model.Recipe;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBinding;
 import io.github.andyradionov.udacitybakingapp.databinding.ActivityBakingBindingSw600dpImpl;
 import io.github.andyradionov.udacitybakingapp.ui.base.BaseDrawerActivity;
-import io.github.andyradionov.udacitybakingapp.ui.details.DetailsActivity;
 import io.github.andyradionov.udacitybakingapp.ui.details.StepDetailsFragment;
 import io.github.andyradionov.udacitybakingapp.viewmodels.BakingViewModel;
 import timber.log.Timber;
@@ -23,12 +26,14 @@ public class BakingActivity extends BaseDrawerActivity
     public static final String RECIPE_EXTRA = "recipe_extra";
     private BakingViewModel mBakingViewModel;
     private boolean mIsTwoPane;
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.d("onCreate");
-        ActivityBakingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_baking);
+        setContentView(R.layout.activity_baking);
+        mIsTwoPane = isTablet();
 
         Intent startIntent = getIntent();
         Recipe recipe = startIntent.getParcelableExtra(RECIPE_EXTRA);
@@ -41,14 +46,12 @@ public class BakingActivity extends BaseDrawerActivity
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.master_list_fragment, new RecipeStepsFragment())
+                    .replace(R.id.master_fragment, new RecipeStepsFragment())
                     .commit();
 
-            if (binding instanceof ActivityBakingBindingSw600dpImpl) {
-                mIsTwoPane = true;
-
+            if (mIsTwoPane) {
                 fragmentManager.beginTransaction()
-                        .replace(R.id.detail_recipe_fragment, getDetailsFragment(recipe,
+                        .replace(R.id.detail_fragment, getDetailsFragment(recipe,
                                 mBakingViewModel.getStepNumber().getValue()))
                         .commit();
             }
@@ -60,11 +63,8 @@ public class BakingActivity extends BaseDrawerActivity
         Timber.d("onStepItemClick(): %d", stepNumber);
 
         mBakingViewModel.getStepNumber().setValue(stepNumber);
-        if (mIsTwoPane) {
-            replaceDetailsFragment(mBakingViewModel.getRecipe().getValue(), stepNumber);
-        } else {
-            startDetailsActivity();
-        }
+        replaceDetailsFragment(mBakingViewModel.getRecipe().getValue(),
+                mBakingViewModel.getStepNumber().getValue());
     }
 
     @Override
@@ -83,29 +83,22 @@ public class BakingActivity extends BaseDrawerActivity
                 mBakingViewModel.getStepNumber().getValue());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Timber.d("onActivityResult()");
-
-        if (requestCode == DetailsActivity.REQUEST_SHOW_DETAILS) {
-            if (resultCode == DetailsActivity.RESULT_SHOW_PREVIOUS) {
-                mBakingViewModel.decStepNumber();
-                startDetailsActivity();
-            } else if (resultCode == DetailsActivity.RESULT_SHOW_NEXT) {
-                mBakingViewModel.incStepNumber();
-                startDetailsActivity();
-            }
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
         }
+        return mIdlingResource;
     }
 
-    private void startDetailsActivity() {
-        Timber.d("startDetailsActivity()");
+    protected void replaceDetailsFragment(Recipe recipe, int stepNumber) {
+        Timber.d("replaceDetailsFragment() for step: %d", stepNumber);
+        int fragmentLayoutId = mIsTwoPane ? R.id.detail_fragment : R.id.master_fragment;
 
-        Intent startDetails = new Intent(this, DetailsActivity.class);
-        startDetails.putExtra(DetailsActivity.RECIPE_EXTRA,
-                mBakingViewModel.getRecipe().getValue());
-        startDetails.putExtra(DetailsActivity.STEP_NUMBER_EXTRA,
-                mBakingViewModel.getStepNumber().getValue());
-        startActivityForResult(startDetails, DetailsActivity.REQUEST_SHOW_DETAILS);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(fragmentLayoutId, getDetailsFragment(recipe, stepNumber))
+                .commit();
     }
 }

@@ -1,8 +1,6 @@
 package io.github.andyradionov.udacitybakingapp.ui.base;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -114,13 +112,10 @@ public abstract class BaseDrawerActivity extends AppCompatActivity implements Re
         return fragment;
     }
 
-    protected void replaceDetailsFragment(Recipe recipe, int stepNumber) {
-        Timber.d("replaceDetailsFragment() for step: %d", stepNumber);
+    protected boolean isTablet() {
+        Timber.d("isTablet()");
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.detail_recipe_fragment, getDetailsFragment(recipe, stepNumber))
-                .commit();
+        return getResources().getBoolean(R.bool.is_sw600);
     }
 
     private void setupDrawerContent(List<Recipe> recipes) {
